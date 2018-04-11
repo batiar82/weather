@@ -92,20 +92,21 @@ public class LocationService implements ApplicationEventPublisherAware {
 	public void updateForecast() {
 		log.info("Updating oldest Forecast...");
 		Forecast forecast=forecastDao.findFirstByOrderById();
-		Location location=forecast.getLocation();
-		forecastDao.delete(forecast);
-		location.addForecast(yahooService.getForecastForLocation(location));
-		System.out.println(location.getForecast());
-		location=dao.save(location);
+		if(forecast!=null) {
+			Location location=forecast.getLocation();
+			forecastDao.delete(forecast);
+			location.addForecast(yahooService.getForecastForLocation(location));
+			System.out.println(location.getForecast());
+			location=dao.save(location);
 		
 		
-		//TODO Mover a un listener de eventos
-		String username= location.getBoard().getOwner().getName();
+			//TODO Mover a un listener de eventos
+			String username= location.getBoard().getOwner().getName();
 		
-		String url=MessageFormat.format("/topic/{0}/boards",username);
-		this.websocket.convertAndSend(
-				url, location);
-		
+			String url=MessageFormat.format("/topic/{0}/boards",username);
+			this.websocket.convertAndSend(
+					url, location);
+		}
 		
 	}
 	@Async

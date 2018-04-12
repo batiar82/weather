@@ -22,7 +22,7 @@ import com.mariano.weather.model.dto.BoardDTO;
 import com.mariano.weather.service.impl.BoardService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BoardController {
 	
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);

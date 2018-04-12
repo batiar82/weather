@@ -1,0 +1,15 @@
+.card{
+    background-color: gainsboro;
+    
+ 
+    position: relative;
+    padding-left: 10px;
+    padding-top: 10px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.6);
+  
+  }
+  .card-trash{
+    position: absolute;
+    right: 10px;
+    top:10px;
+  }

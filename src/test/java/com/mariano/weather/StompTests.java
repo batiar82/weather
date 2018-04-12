@@ -1,6 +1,7 @@
 package com.mariano.weather;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -64,7 +64,7 @@ public class StompTests {
             @Override
             public void afterConnected(final StompSession session, StompHeaders connectedHeaders) {
             	System.out.println("Conectado....");
-                session.subscribe("/topic/greetings", new StompFrameHandler() {
+                session.subscribe("/topic/boards/Mariano", new StompFrameHandler() {
                     @Override
                     public Type getPayloadType(StompHeaders headers) {
                         return String.class;
@@ -73,7 +73,7 @@ public class StompTests {
                     @Override
                     public void handleFrame(StompHeaders headers, Object payload) {
                        try {
-                            assertEquals("Hello, Spring!", payload);
+                            assertNotNull(payload);
                         } catch (Throwable t) {
                             failure.set(t);
                         } finally {
@@ -82,12 +82,7 @@ public class StompTests {
                         }
                     }
                 });
-                try {
-                    session.send("/app/hello", "Test cliente");
-                } catch (Throwable t) {
-                    failure.set(t);
-                    latch.countDown();
-                }
+                
             }
         };
 

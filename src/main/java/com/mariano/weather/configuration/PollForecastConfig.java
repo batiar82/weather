@@ -16,8 +16,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
-import com.mariano.weather.dao.BoardDao;
-import com.mariano.weather.dao.LocationDao;
 import com.mariano.weather.service.impl.LocationService;
 
 @Configuration

@@ -1,7 +1,5 @@
 package com.mariano.weather;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -16,9 +14,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.web.client.RestTemplate;
 
 import com.mariano.weather.dao.UserDao;
-import com.mariano.weather.model.Forecast;
 import com.mariano.weather.model.User;
-import com.mariano.weather.service.impl.YahooService;
+import com.mariano.weather.service.impl.YahooCounterService;
 
 @SpringBootApplication
 public class WeatherApplication {
@@ -34,20 +31,19 @@ public class WeatherApplication {
 		return builder.build();
 	}
 	
-	@Bean
-	public Map<String,Forecast> forecasts(){
-		return new HashMap<String,Forecast>();
-	}
-	
-	
-	@Autowired
-	YahooService service;
 	
 		
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	YahooCounterService yahooCounterService;
 	@Bean
-	
+	/**
+	 * Creo un usuario si no lo hay para usar antes de implementar seguridad y crud de usuarios
+	 * @param restTemplate
+	 * @return
+	 * @throws Exception
+	 */
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		return args -> {
 			
@@ -55,20 +51,11 @@ public class WeatherApplication {
 			mariano.setName("Mariano");
 			Example<User> ejemplo = Example.of(mariano);
 			Optional<User> opt=userDao.findOne(ejemplo);
-			if(!opt.isPresent())
+			if(!opt.isPresent()) {
 				userDao.save(mariano);
-			
-			/*
-			
-			List<String> cities= new ArrayList<String>();
-			cities.add("Buenos aires");
-			cities.add("Chicago");
-			for(String city : cities) {
-				Forecast forecast = service.getForecastByCity("buenos aires");
-				log.info(forecast.toString());
-				forecasts.put(city, forecast);
+				log.info("Inserting dummy user to db...");
 			}
-			*/
+			yahooCounterService.initCounter();
 			
 		};
 	}

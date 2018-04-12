@@ -38,9 +38,31 @@ public class YahooCounterService {
 			return true;
 		return false;
 	}
+	/**
+	 * Incremento el numero de consultas en la base para no pasarme
+	 */
 	public void increaseCounter() {
 		YahooCounter counter=dao.findFirstByOrderByIdDesc();
 		counter.setCount(counter.getCount()+1);
 		dao.save(counter);
+	}
+	
+	/**
+	 * Al iniciar el backend chequear q exista un contador para este dia y sino iniciarlo
+	 */
+	public void initCounter() {
+		YahooCounter counter=dao.findFirstByOrderByIdDesc();
+		boolean shouldInit=false;
+		if(counter==null) {
+			shouldInit=true;
+		}else {
+			Calendar dbDay=Calendar.getInstance();
+			dbDay.setTime(counter.getDate());
+			if(!isToday(dbDay))
+				shouldInit=true;
+		}
+		if(shouldInit)
+			dao.save(new YahooCounter(new Date(),0));
+		
 	}
 }

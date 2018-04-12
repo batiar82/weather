@@ -17,7 +17,9 @@ public class UpdateForecast implements ApplicationListener<ApplicationReadyEvent
   @Autowired
   LocationService locationService;
 	
-	
+/**
+ * Una vez que arranca el backend actualiza todas las locaciones	
+ */
   @Override
   public void onApplicationEvent(final ApplicationReadyEvent event) {
 	  locationService.updateAll();

@@ -3,12 +3,14 @@ package com.mariano.weather.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class YahooCounter {
 	public static final Integer MAX_QUERIES=2000;
 	@Id
+	@GeneratedValue
 	private Integer id;
 	private Date date;
 	private Integer count;

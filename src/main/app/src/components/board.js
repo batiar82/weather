@@ -1,11 +1,13 @@
 import React  from 'react'
 import '../css/board.css'
 import Location from './location'
+import LocationForm from './LocationForm';
 export default ({ board, handleBoardDelete, handleLocationAdd, handleLocationDelete }) => {
   let locations=null;
   if(board.locations){
-    locations=board.locations.map(location => <Location handleDelete={handleLocationDelete} location={location} key={location.id} />)
+    locations=board.locations.map(location => <Location handleDelete={handleLocationDelete} location={location} boardId={board.id}key={location.id} />)
   }
+  
   return (
     <div className="panel">
       <div className="panel-header">
@@ -14,8 +16,7 @@ export default ({ board, handleBoardDelete, handleLocationAdd, handleLocationDel
         </div>
         <h1>{board.name}</h1>
         <div className="location-form">
-          <input type="text" placeholder="City" ref={(input)=> this._city = input}/>
-          <button type="submit" onClick={()=>handleLocationAdd(this._city)}>Add</button>
+        <LocationForm boardId={board.id} handleLocationAdd={handleLocationAdd}/>
         </div>
 
       </div>

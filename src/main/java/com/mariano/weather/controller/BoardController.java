@@ -58,9 +58,8 @@ public class BoardController {
 	}
 	@RequestMapping(value="/boards/{user}/{boardId}",
 			method=RequestMethod.DELETE,
-			produces=MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> deleteBoard(@PathVariable String user, @PathVariable Integer boardId) {
+			produces=MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<?> deleteBoard(@PathVariable String user, @PathVariable Integer boardId) {
 		service.removeLocation(boardId);
 		return ResponseEntity.ok("Board deleted");
 	}	

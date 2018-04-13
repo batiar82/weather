@@ -1,13 +1,13 @@
 import React from 'react'
 import '../css/location.css'
 import moment from 'moment'
-export default ({ location, handleDelete }) => {
+export default ({ location, handleDelete,boardId }) => {
   //const forecastDate = Date.parse(location.forecast.date);
   const forecastDate = moment(location.forecast.date).format("D/M/YYYY HH:mm");
   return (
     <div className="col-xs-12 col-sm-4">
       <div className="card weather">
-        <div className="card-trash" onClick={handleDelete}>
+        <div className="card-trash" onClick={()=>handleDelete(boardId,location.id)}>
           <i className="far fa-trash-alt"></i>
         </div>
 

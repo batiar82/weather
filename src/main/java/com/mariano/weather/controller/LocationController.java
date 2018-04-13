@@ -32,8 +32,7 @@ public class LocationController {
 	}
 	@RequestMapping(value="/boards/{user}/{boardId}/locations/{location}",
 			method=RequestMethod.DELETE,
-			produces=MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
+			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> removeLocation(@PathVariable String user, @PathVariable Integer boardId,@PathVariable Integer location) {
 		service.removeLocation(location);
 		return ResponseEntity.ok("Location deleted");

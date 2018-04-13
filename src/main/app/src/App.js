@@ -46,7 +46,7 @@ class App extends Component {
     let newBoards = [...this.state.boards];
     newBoards.some(board => {
       const index = board.locations.findIndex(location => location.id === newLocation.id)
-      if (index != -1) {
+      if (index !== -1) {
         board.locations[index] = newLocation;
         return true;;
       }
@@ -67,33 +67,41 @@ class App extends Component {
     }).then(response => {
       console.log("Response " + response.data);
       let newBoards = [...this.state.boards];
-      newBoards = newBoards.filter(board => board.id != boardId);
+      newBoards = newBoards.filter(board => board.id !== boardId);
       this.setState({ boards: newBoards });
     }).catch(error =>{console.log(error)});
   }
-  handleLocationDelete = (boardId) => {
+  handleLocationDelete = (boardId,locationId) => {
 
-    console.log("Delete Location " + boardId);
-    /*axios.delete(`${url}/boards/Mariano/${}`).then(response => {
-    console.log("Response "+response.data);
+    console.log("Delete Location " + boardId+" "+locationId);
+    axios.delete(`${url}/boards/Mariano/${boardId}/locations/${locationId}`).then(response => {
     let newBoards=[...this.state.boards];
-    newBoards.push(response.data);
+    const newBoard=newBoards.find(board=>board.id===boardId);
+    newBoard.locations=newBoard.locations.filter(location=>location.id!==locationId);
     this.setState({ boards: newBoards });
-  })*/
+  })
   }
   handleBoardAdd = (field) => {
     console.log("add Board " + field.value);
     axios.post(`${url}/boards/Mariano`, {
       name: field.value
     }).then(response => {
-      console.log("Response " + response.data);
+      console.log("Response " + JSON.stringify(response.data));
       let newBoards = [...this.state.boards];
       newBoards.push(response.data);
       this.setState({ boards: newBoards });
     })
   }
-  handleLocationAdd = (city) => {
-    console.log("Add location " + city.value);
+  handleLocationAdd = (boardId,city) => {
+    console.log("Add location " + city+ " "+boardId);
+    axios.post(`${url}/boards/Mariano/${boardId}/locations`,{city:city}).then(response =>{
+      let newBoards = [...this.state.boards];
+      const newBoard=newBoards.find(board=>board.id===boardId)
+      if(newBoard.locations===null)
+        newBoard.locations=[];
+      newBoard.locations.push(response.data);
+      this.setState({boards:newBoards});
+    })
   }
 
 

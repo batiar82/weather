@@ -9,13 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class User {
-	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -61,15 +57,26 @@ public class User {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = PASSWORD_ENCODER.encode(password);
+		this.password = password;
 	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(String name) {
+	public User(String name, String username, String password) {
 		super();
 		this.name = name;
+		this.username=username;
+		this.password=password;
+	}
+	public User(String name) {
+		super();
+		this.name=name;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + "]";
 	}
 	
 }
+

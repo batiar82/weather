@@ -1,5 +1,9 @@
 package com.mariano.weather.security;
 
+import static com.mariano.weather.security.SecurityConstants.HEADER_STRING;
+import static com.mariano.weather.security.SecurityConstants.SECRET;
+import static com.mariano.weather.security.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,11 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import static com.mariano.weather.security.SecurityConstants.EXPIRATION_TIME;
-import static com.mariano.weather.security.SecurityConstants.HEADER_STRING;
-import static com.mariano.weather.security.SecurityConstants.SECRET;
-import static com.mariano.weather.security.SecurityConstants.TOKEN_PREFIX;
 
 import io.jsonwebtoken.Jwts;
 

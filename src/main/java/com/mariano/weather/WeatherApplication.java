@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 import com.mariano.weather.dao.UserDao;
@@ -31,7 +32,11 @@ public class WeatherApplication {
 		return builder.build();
 	}
 	
-	
+	@Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		System.out.println("Creando encoder**************");
+        return new BCryptPasswordEncoder();
+    }
 		
 	@Autowired
 	UserDao userDao;

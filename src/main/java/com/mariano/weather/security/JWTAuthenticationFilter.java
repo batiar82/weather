@@ -1,5 +1,10 @@
 package com.mariano.weather.security;
 
+import static com.mariano.weather.security.SecurityConstants.EXPIRATION_TIME;
+import static com.mariano.weather.security.SecurityConstants.HEADER_STRING;
+import static com.mariano.weather.security.SecurityConstants.SECRET;
+import static com.mariano.weather.security.SecurityConstants.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,19 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mariano.weather.model.User;
+import com.mariano.weather.model.dto.UserDTO;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import static com.mariano.weather.security.SecurityConstants.EXPIRATION_TIME;
-import static com.mariano.weather.security.SecurityConstants.HEADER_STRING;
-import static com.mariano.weather.security.SecurityConstants.SECRET;
-import static com.mariano.weather.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
@@ -35,9 +38,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		try {
-            User creds = new ObjectMapper()
-                    .readValue(request.getInputStream(), User.class);
-
+            UserDTO creds = new ObjectMapper()
+                    .readValue(request.getInputStream(), UserDTO.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),

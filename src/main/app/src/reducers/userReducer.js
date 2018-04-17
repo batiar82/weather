@@ -12,6 +12,9 @@ export default (state=initialState, action)=>{
         case 'SIGNUP_FULFILLED':{
             return {...state,userData:action.payload}
         }
+        case 'LOGOUT_FULFILLED':{
+            return {...state,loggedIn:false,userData:{}}
+        }
         default: return state;
     }
 }

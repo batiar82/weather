@@ -32,6 +32,20 @@ export default (state = initialState, action) => {
             newBoard.locations=newBoard.locations.filter(location=>location.id!==action.payload.locationId)
             return { ...state, boards: newBoards }
         }
+        case 'WS_LOCATION_RECEIVED':{
+            console.log("RECEIVED LOCATION: "+action.payload);
+            let newBoards = [...state.boards];
+            newBoards.some(board =>{
+                const index=board.locations.findIndex(location => location.id === action.payload.id)
+                console.log("Index: "+index);
+                if(index!==-1){
+                    board.locations[index]=action.payload
+                    return true;
+                } return false;
+            })
+            console.log("BOards "+JSON.stringify(newBoards[0].locations[0]));
+            return {...state,boards: newBoards}
+        }
         default: return state;
     }
 }

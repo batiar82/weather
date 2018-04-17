@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import Board from './board'
 import BoardForm from './boardForm'
-import axios from 'axios';
-import SockJS from 'sockjs-client'
-import Stomp from '@stomp/stompjs'
-import {Redirect} from 'react-router-dom'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {fetchBoards,addBoard,deleteBoard,addLocation,deleteLocation} from '../../actions/boardAction'
-const url = 'http://localhost:8080'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchBoards, addBoard, deleteBoard, addLocation, deleteLocation } from '../../actions/boardAction'
 class Boards extends Component {
     constructor(props) {
         super(props);
@@ -18,76 +14,41 @@ class Boards extends Component {
 
     }
 
-    
     componentDidMount() {
 
-        if(!this.props.loggedIn)
-        {    
-        this.props.fetchBoards("Martin");
-        let socket = null;
-        let stompClient = null;
-        
-        socket = new SockJS(`${url}/weather`);
-        stompClient = Stomp.over(socket);
-        stompClient.reconnect_delay = 5000;
-        stompClient.connect({}, () => {
-          stompClient.subscribe('/topic/Mariano/boards', this.newDataHandler);
-    
-        })
+        if (this.props.loggedIn)
+            this.props.fetchBoards(this.props.userData.username);
+
     }
-      }
-      newDataHandler = (frame) => {
-        const newLocation = JSON.parse(frame.body);
-        let newBoards = [...this.state.boards];
-        newBoards.some(board => {
-          const index = board.locations.findIndex(location => location.id === newLocation.id)
-          if (index !== -1) {
-            board.locations[index] = newLocation;
-            return true;
-          }return false;
-        })
-    
-    
-    
-        this.setState({ boards: newBoards });
-    
-      }
-    
-      handleBoardDelete = (boardId) => {
-          console.log("Delete "+boardId);
-        this.props.deleteBoard(boardId,"Martin");
 
-      }
-     
-      handleLocationDelete = (boardId,locationId) => {
-        this.props.deleteLocation(locationId,boardId,"Martin");
-        /*console.log("Delete Location " + boardId+" "+locationId);
-        axios.delete(`${url}/boards/Mariano/${boardId}/locations/${locationId}`).then(response => {
-        let newBoards=[...this.state.boards];
-        const newBoard=newBoards.find(board=>board.id===boardId);
-        newBoard.locations=newBoard.locations.filter(location=>location.id!==locationId);
-        this.setState({ boards: newBoards });
-      })*/
-      }
-      handleBoardAdd = (field) => {
+    handleBoardDelete = (boardId) => {
+        console.log("Delete " + boardId);
+        this.props.deleteBoard(boardId, this.props.userData.username);
+
+    }
+
+    handleLocationDelete = (boardId, locationId) => {
+        this.props.deleteLocation(locationId, boardId, this.props.userData.username);
+
+    }
+    handleBoardAdd = (field) => {
         console.log("add Board " + field.value);
-        this.props.addBoard(field.value,"Martin");
+        this.props.addBoard(field.value, this.props.userData.username);
 
-      }
-      handleLocationAdd = (boardId,city) => {
-        this.props.addLocation(city,boardId,"Martin");
-      }
-    
+    }
+    handleLocationAdd = (boardId, city) => {
+        this.props.addLocation(city, boardId, this.props.userData.username);
+    }
+
 
     render() {
-        //const { boards } = this.state
         const { boards } = this.props
-        /*if (!this.props.loggedIn) {
+        if (!this.props.loggedIn) {
             console.log("redirecting");
-            return(
-            <Redirect to={{ pathname: '/user/login' }} />
+            return (
+                <Redirect to={{ pathname: '/user/login' }} />
             )
-          }*/
+        }
         return (
             <div>
                 <BoardForm handleBoardAdd={this.handleBoardAdd} />
@@ -96,7 +57,7 @@ class Boards extends Component {
         )
     }
 }
-const mapStateToProps = state =>({
+const mapStateToProps = state => ({
     userData: state.user.userData,
     loggedIn: state.user.loggedIn,
     boards: state.board.boards

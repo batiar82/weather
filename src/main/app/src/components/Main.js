@@ -4,7 +4,7 @@ import Boards from './Board/Boards'
 import Login from './User/Login'
 import Signup from './User/Signup'
 
-const Main = (props) => {
+const Main = () => {
     return (
     <main>
         <Switch>

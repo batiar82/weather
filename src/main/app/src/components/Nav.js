@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
 import  {Link} from 'react-router-dom';
+import {connect} from 'react-redux'
 
 class Nav extends Component {
-    state={
+    constructor(props){
+        super(props)
+    
+    this.state={
         navCollapsed:true
     }
-    
+}
     _onToggleNav = () => {
-        console.log("Click");
+        console.log("Click "+JSON.stringify(this.props.userData));
         this.setState({navCollapsed : !this.state.navCollapsed})
     }
     
     render() {
         const {navCollapsed} =this.state
+        let collapseClass='collapse'
+        if(!navCollapsed)
+            collapseClass+=' navbar-collapse';
+        let status=<li className="nav-item">
+        <Link to='/user/logout' className="nav-link" >Logout</Link>
+        </li>
+        if(!this.props.loggedIn){
+            status=<li className="nav-item">
+            <Link to='/user/login' className="nav-link" >Login</Link><Link to='/user/signup' className="nav-link" >Signup</Link>
+            </li>
+        }
         return (<nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to='/' className="navbar-brand">Weather App Challenge</Link>
             
@@ -22,22 +37,14 @@ class Nav extends Component {
                 <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className='collapse navbar-collapse' id="navbarColor03">
+            <div className={collapseClass} id="navbarColor03">
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item active">
-                    <Link to='/books/all' className="nav-link" >Boards
+                    <Link to='/' className="nav-link" >Boards
             <span className="sr-only">(current)</span>
                         </Link>
                     </li>
-                    <li className="nav-item">
-                    <Link to='/user/login' className="nav-link" >Login</Link>
-                    </li>
-                    <li className="nav-item">
-                    <Link to='/user/signin' className="nav-link" >Signin</Link>
-                    </li>
-                    <li className="nav-item">
-                    <Link to='/user/logout' className="nav-link" >Logout</Link>
-                    </li>
+                    {status}
                 </ul>
 
             </div>
@@ -45,4 +52,8 @@ class Nav extends Component {
         </nav>)
     }
 }
-export default Nav;
+const mapStateToProps = state =>({
+    userData: state.user.userData,
+    loggedIn: state.user.loggedIn
+})
+export default connect(mapStateToProps)(Nav);

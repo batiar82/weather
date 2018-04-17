@@ -1,5 +1,5 @@
 import React  from 'react'
-import '../css/board.css'
+import './board.css'
 import Location from './location'
 import LocationForm from './LocationForm';
 export default ({ board, handleBoardDelete, handleLocationAdd, handleLocationDelete }) => {

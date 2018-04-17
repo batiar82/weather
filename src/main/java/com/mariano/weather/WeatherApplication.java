@@ -1,7 +1,9 @@
 package com.mariano.weather;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.mariano.weather.dao.UserDao;
 import com.mariano.weather.model.User;
@@ -34,9 +39,24 @@ public class WeatherApplication {
 	
 	@Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		System.out.println("Creando encoder**************");
-        return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
     }
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addExposedHeader("Authorization");
+		config.addAllowedMethod("OPTIONS");
+		config.addAllowedMethod("GET");
+		config.addAllowedMethod("POST");
+		config.addAllowedMethod("PUT");
+		config.addAllowedMethod("DELETE");
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
+	}
 		
 	@Autowired
 	UserDao userDao;

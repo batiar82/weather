@@ -1,5 +1,5 @@
 import React from 'react'
-import '../css/location.css'
+import './location.css'
 import moment from 'moment'
 export default ({ location, handleDelete,boardId }) => {
   //const forecastDate = Date.parse(location.forecast.date);

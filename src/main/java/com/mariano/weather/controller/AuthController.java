@@ -24,11 +24,6 @@ public class AuthController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody User user){
-		System.out.println("Login");
-		return ResponseEntity.ok("");
-	}
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO user){
 		System.out.println("Password "+user.getPassword());

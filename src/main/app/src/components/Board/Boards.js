@@ -15,7 +15,7 @@ class Boards extends Component {
     }
 
     componentDidMount() {
-
+        console.log("Logged in en boards: "+this.props.loggedIn)
         if (this.props.loggedIn)
             this.props.fetchBoards(this.props.userData.username);
 

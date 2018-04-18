@@ -54,11 +54,11 @@ public class LocationService implements ApplicationEventPublisherAware {
 		Location newLocation = new Location();
 		newLocation.setName(city);
 		newLocation.setBoard(boardDao.findById(boardId).get());
-		Forecast yahooForecast = yahooService.getForecastForLocation(newLocation);
+		Forecast yahooForecast = yahooService.getForecastForLCity(city);
 		if (yahooForecast == null)
 			return null;
 		else {
-			newLocation.addForecast(yahooService.getForecastForLocation(newLocation));
+			newLocation.addForecast(yahooService.getForecastForLCity(city));
 			newLocation = dao.save(newLocation);
 			publisher.publishEvent(new LocationEvent(this, "ADD", newLocation));
 			return newLocation;
@@ -91,33 +91,26 @@ public class LocationService implements ApplicationEventPublisherAware {
 	 * Busca la proxima location a actualizar y la actualiza. ademas publica el
 	 * evento de la actualizacion
 	 */
-	@Transactional
-	public void updateForecast() {
-		log.info("Updating oldest Forecast...");
-		Forecast forecast = forecastDao.findFirstByOrderById();
-		if (forecast != null) {
-			Location location = forecast.getLocation();
-			forecastDao.delete(forecast);
-			location.addForecast(yahooService.getForecastForLocation(location));
-			location = dao.save(location);
-
-			publisher.publishEvent(new LocationEvent(this, LocationEvent.UPDATE_FORECAST, location));
-
+	public void updateOldestForecast() {
+		Forecast forecast= forecastDao.findFirstByOrderById();
+		if(forecast !=null) {
+			Forecast newForecast=yahooService.getForecastForLCity(forecast.getCity());
+			forecast.copyPropertiesFrom(newForecast);
+			forecastDao.save(forecast);
 		}
 	}
-
 	/**
 	 * Actualiza todos los pronosticos al iniciar la aplicacion.
 	 */
 	@Async
 	public void updateAll() {
-		log.info("Updating allLocations for initial setup...");
-		Iterator<Location> locations = dao.findAll().iterator();
-		while (locations.hasNext()) {
-			Location location = locations.next();
-			forecastDao.delete(location.getForecast());
-			location.addForecast(yahooService.getForecastForLocation(location));
-			dao.save(location);
+		Iterator<Forecast> forecasts =forecastDao.findAll().iterator();
+		while(forecasts.hasNext()) {
+			Forecast forecast=forecasts.next();
+			Forecast newForecast=yahooService.getForecastForLCity(forecast.getCity());
+			forecast.copyPropertiesFrom(newForecast);
+			forecastDao.save(forecast);
+			
 		}
 	}
 }

@@ -79,6 +79,12 @@ public class Forecast {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+	public void copyPropertiesFrom(Forecast newForecast) {
+		this.temp=newForecast.getTemp();
+		this.date=newForecast.getDate();
+		this.text=newForecast.getText();
+		
+	}
 	
 	
 }

@@ -39,7 +39,7 @@ public class PollForecastConfig implements SchedulingConfigurer {
         taskRegistrar.addTriggerTask(new Runnable() {
 			@Override
 			public void run() {
-				locationService.updateForecast();
+				locationService.updateOldestForecast();
 			}
         },
                 new Trigger() {

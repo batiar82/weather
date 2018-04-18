@@ -1,0 +1,15 @@
+ .LocationForm input {
+  height: 40px;
+  border-radius: 5px;
+  font-size: 1.4em;
+  margin-right: 13px;
+  padding-left: 10px;
+}
+.LocationForm button{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  font-size: 1.5em;
+  font-weight: bolder;
+  padding: 0px 9px 0px 9px;
+}

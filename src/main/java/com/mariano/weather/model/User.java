@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
@@ -15,9 +17,13 @@ public class User {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	 @NotNull
 	private String name;
+	 @NotNull
+	@Column(unique=true)
 	private String username;
 	@JsonIgnore
+	 @NotNull
 	private String password;
 	@JsonIgnore
 	@OneToMany(mappedBy="owner",cascade = CascadeType.ALL,orphanRemoval = true )
@@ -69,9 +75,10 @@ public class User {
 		this.username=username;
 		this.password=password;
 	}
-	public User(String name) {
+	
+	public User(String username) {
 		super();
-		this.name=name;
+		this.username=username;
 	}
 	@Override
 	public String toString() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-
+import Aux from './hoc/Aux'
 class Nav extends Component {
     constructor(props) {
         super(props)
@@ -16,41 +16,39 @@ class Nav extends Component {
     }
 
     render() {
-        const { navCollapsed } = this.state
-        console.log("COLLA " + navCollapsed);
-        let collapseClass = 'collapse'
-        if (!navCollapsed)
-            collapseClass += ' navbar-collapse';
-        let status = <li className="nav-item">
-            <Link to='/user/logout' className="nav-link" >Logout</Link>
-        </li>
-        if (!this.props.loggedIn) {
-            status = <li className="nav-item">
-                <Link to='/user/login' className="nav-link" >Login</Link><Link to='/user/signup' className="nav-link" >Signup</Link>
+        console.log("Logged "+this.props.loggedIn);
+        let showUnlogged =
+            <Aux>
+                <li>
+                    <Link to='/user/signup' className="nav-link" >
+                        <i className="fas fa-user-plus" ></i> Sing Up
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/user/login' className="nav-link" >
+                        <i className="fas fa-sign-in-alt"></i> Login
+                    </Link>
+                </li>
+            </Aux>
+
+        if (this.props.loggedIn) {
+            showUnlogged = 
+            <li>
+                <Link to='/user/logout' className="nav-link" >
+                    <i className="fas fa-sign-out-alt"></i> Logout
+                </Link>
             </li>
         }
         return (
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
+            <nav className="navbar navbar-default">
+                <div className="container-fluid">
+                    <div className="navbar-header">
                         <Link to='/' className="navbar-brand" >Weather App Challenge</Link>
                     </div>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <Link to='/user/signup' className="nav-link" >
-                                <i class="fas fa-user-plus" ></i> Sing Up
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/user/login' className="nav-link" >
-                                <i class="fas fa-sign-in-alt"></i> Login
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to='/user/logout' className="nav-link" >
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </Link>
-                        </li>
+                    <ul className="nav navbar-nav navbar-right">
+                    {showUnlogged}
+
+
                     </ul>
                 </div>
             </nav>

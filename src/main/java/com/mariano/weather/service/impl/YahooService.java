@@ -21,10 +21,10 @@ public class YahooService {
 	 * @param location
 	 * @return
 	 */
-	public Forecast getForecastForLocation(Location location){
+	public Forecast getForecastForLCity(String city){
 		String url="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='{city}')&format=json";
 		Map<String, String> params = new HashMap<String, String>();
-	    params.put("city", location.getName());
+	    params.put("city", city);
 	    if(yahooCounterService.canUpdate()) {
 	    	try {
 	    		yahooCounterService.increaseCounter();

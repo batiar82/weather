@@ -3,6 +3,7 @@ package com.mariano.weather.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +21,18 @@ public class AuthController {
 	
 	@Autowired
 	UserDao dao;
-	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO user){
-		System.out.println("Password "+user.getPassword());
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		dao.save(new User(user.getName(),user.getUsername(),user.getPassword()));
-		return ResponseEntity.ok("");
-	}
+	public ResponseEntity<User> registerUser(@Valid @RequestBody UserDTO user){
+		User exists = dao.findByUsername(user.getUsername());
+		if(exists==null) {
+			System.out.println("Password "+user.getPassword());
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			User newUser=dao.save(new User(user.getName(),user.getUsername(),user.getPassword()));
+			return new ResponseEntity<User>(newUser,HttpStatus.CREATED);
+	}else
+			return new ResponseEntity<User>(new User(user.getName(),user.getUsername(),user.getPassword()), HttpStatus.CONFLICT);
+}
 }

@@ -1,5 +1,7 @@
 const initialState = {
-    boards: []
+    boards: [],
+    errors: null,
+    fetchingCity: false
 }
 
 export default (state = initialState, action) => {
@@ -8,22 +10,46 @@ export default (state = initialState, action) => {
             return { ...state, boards: action.payload }
         }
         case 'ADD_BOARD_FULFILLED': {
+
             let newBoards = [...state.boards];
             newBoards.push(action.payload);
-            return { ...state, boards: newBoards }
+            return { ...state, boards: newBoards, errors: null }
         }
         case 'DELETE_BOARD_FULFILLED': {
             let newBoards = [...state.boards];
             newBoards = newBoards.filter(board => board.id !== action.payload);
             return { ...state, boards: newBoards }
         }
+        case 'ADD_LOCATION_PENDING':{
+            let newBoards = [...state.boards];
+            const newBoard = newBoards.find(board => board.id === action.payload.boardId)
+            newBoard.error=null;
+            newBoard.fetchingCity=true
+            if (newBoard.locations === null)
+                newBoard.locations = [];
+            action.payload.location.loading=true;
+            action.payload.location.id="Temp";
+            newBoard.locations.push(action.payload.location)
+            return { ...state, boards: newBoards }
+            }
         case 'ADD_LOCATION_FULFILLED': {
             let newBoards = [...state.boards];
             const newBoard = newBoards.find(board => board.id === action.payload.boardId)
             if (newBoard.locations === null)
                 newBoard.locations = [];
-            newBoard.locations.push(action.payload.location)
-            return { ...state, boards: newBoards }
+                newBoard.fetchingCity=false;
+                newBoard.error=false;
+            newBoard.locations[newBoard.locations.length-1]=action.payload.location;
+            return { ...state, boards: newBoards}
+        }
+        case 'ADD_LOCATION_REJECTED': {
+            let newBoards = [...state.boards];
+            const newBoard = newBoards.find(board => board.id === action.payload.boardId)
+            newBoard.locations.pop();
+            newBoard.error=action.payload.error;
+            newBoard.fetchingCity=false;
+
+            return { ...state, boards: newBoards}
         }
         case 'DELETE_LOCATION_FULFILLED': {
             let newBoards = [...state.boards];

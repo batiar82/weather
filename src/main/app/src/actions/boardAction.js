@@ -46,13 +46,14 @@ export function addBoard(name, username) {
 
 export function addLocation(city, boardId, username) {
     return function (dispatch) {
+        dispatch({type: "ADD_LOCATION_PENDING", payload: {location: {city: city}, boardId: boardId}} )
         const jwtToken = localStorage.getItem('jwtToken');
         axios.post(`${server}/boards/${username}/${boardId}/locations`, { city: city }, { headers: { 'Authorization': jwtToken } })
             .then(response => {
                 dispatch({ type: "ADD_LOCATION_FULFILLED", payload: { location: response.data, boardId: boardId } })
             })
             .catch(err => {
-                dispatch({ type: "ADD_LOCATION_REJECTED", payload: err })
+                dispatch({ type: "ADD_LOCATION_REJECTED", payload: {error: err.response,boardId:boardId }})
             })
     }
 }

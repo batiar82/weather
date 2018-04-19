@@ -13,11 +13,15 @@ export default class LocationForm extends Component {
   }
 
   render() {
+    let empty=true;
+    if(this.state.city.length!==0)
+      empty=false;
     return (
+
       <div className={classes.LocationForm}>
         <form onSubmit={this.handleSubmit}>
           <input type="text" value={this.state.value} placeholder="Add city" onChange={this.handleChange} />
-          <button type="submit" className="btn btn-primary">+</button>
+          <button type="submit" disabled={empty} className="btn btn-primary">+</button>
         </form>
       </div>
     )

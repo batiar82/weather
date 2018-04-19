@@ -78,6 +78,7 @@ public class LocationService implements ApplicationEventPublisherAware {
 	public Integer getPollInterval() {
 		Long total = dao.count();
 		Integer minuteInterval = Long.valueOf(total * 24 * 60 / YahooCounter.MAX_QUERIES).intValue();
+		System.out.println("Update Interval: "+minuteInterval);
 		return (Forecast.MIN_POLL_DELAY > minuteInterval ? Forecast.MIN_POLL_DELAY : minuteInterval);
 	}
 
@@ -91,12 +92,16 @@ public class LocationService implements ApplicationEventPublisherAware {
 	 * Busca la proxima location a actualizar y la actualiza. ademas publica el
 	 * evento de la actualizacion
 	 */
+	@Transactional
 	public void updateOldestForecast() {
-		Forecast forecast= forecastDao.findFirstByOrderById();
+		Forecast forecast= forecastDao.findFirstByOrderByDate();
+		log.info("Updating forecast: "+forecast);
 		if(forecast !=null) {
 			Forecast newForecast=yahooService.getForecastForLCity(forecast.getCity());
 			forecast.copyPropertiesFrom(newForecast);
 			forecastDao.save(forecast);
+			log.info("Updated forecast: "+forecast);
+			publisher.publishEvent(new LocationEvent(this, LocationEvent.UPDATE_FORECAST, forecast.getLocation()));
 		}
 	}
 	/**

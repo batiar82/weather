@@ -1,14 +1,33 @@
 .Location{
-  background-color: white;
+  background-color: rgb(245, 245, 245);
+  border: 1px solid #0c5460;
   border-radius: 4px;
   margin: 5px;
   padding: 5px;
   position:relative;
   width: 200px;
+  min-height: 160px;
 }
 .LocationTrash{
   float: right;
   position: relative;
   top: 0px;
   right:5px;
+}
+.LocationLoader{
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #d1ecf1;
+  border-bottom: 16px solid #d1ecf1;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

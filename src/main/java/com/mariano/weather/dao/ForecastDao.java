@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.mariano.weather.model.Forecast;
 @Repository
 public interface ForecastDao extends JpaRepository<Forecast, Integer> {
-	public Forecast findFirstByOrderById();
+	public Forecast findFirstByOrderByDate();
 }

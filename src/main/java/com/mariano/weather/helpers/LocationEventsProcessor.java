@@ -26,7 +26,7 @@ public class LocationEventsProcessor implements ApplicationListener<LocationEven
 		//TODO Disparar el update del websocket de ese location;
 		if(locationEvent.getEventType().equals(LocationEvent.UPDATE_FORECAST)) {
 			Location location=locationEvent.getLocation();
-			String username= location.getBoard().getOwner().getName();
+			String username= location.getBoard().getOwner().getUsername();
 			String url=MessageFormat.format("/topic/{0}/boards",username);
 			log.info("Sending updated location to: "+url);
 			this.websocket.convertAndSend(

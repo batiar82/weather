@@ -1,6 +1,6 @@
 import axios from 'axios'
 //const server = 'http://localhost:8080'
-const server = ''
+const server = process.env.REACT_APP_BACKEND_URL;
 export function login(userData) {
     console.log("Data " + JSON.stringify(userData));
     return function (dispatch) {

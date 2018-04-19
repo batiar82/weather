@@ -3,7 +3,7 @@ import Stomp from '@stomp/stompjs'
 
 let socket = null;
 let stompClient = null;
-const server = 'http://localhost:8080';
+const server = process.env.REACT_APP_BACKEND_URL;
 
 export const wsMiddleware = store => next => action => {
     const error = () =>{

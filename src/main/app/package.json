@@ -2,7 +2,6 @@
   "name": "weathercli",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://192.168.1.92:8080",
   "dependencies": {
     "@stomp/stompjs": "^4.0.2",
     "autoprefixer": "7.1.6",

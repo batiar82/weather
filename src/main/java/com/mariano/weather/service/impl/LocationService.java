@@ -79,7 +79,10 @@ public class LocationService implements ApplicationEventPublisherAware {
 		Long total = dao.count();
 		Integer minuteInterval = Long.valueOf(total * 24 * 60 / YahooCounter.MAX_QUERIES).intValue();
 		System.out.println("Update Interval: "+minuteInterval);
-		return (Forecast.MIN_POLL_DELAY > minuteInterval ? Forecast.MIN_POLL_DELAY : minuteInterval);
+		//Devuelvo el minimo porque con la estrategia de actualizar el ultimo no hace falta el calculo, eso es para cuando actualizo todos juntos.
+		//Mas adelante hay que implementar que actualice solo los que estan subscriptos.
+		//return (Forecast.MIN_POLL_DELAY > minuteInterval ? Forecast.MIN_POLL_DELAY : minuteInterval);
+		return Forecast.MIN_POLL_DELAY;
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import com.mariano.weather.helpers.ForecastDeserializer;
 @JsonDeserialize(using = ForecastDeserializer.class)
 @Entity
 public class Forecast {
-	public static final Integer MIN_POLL_DELAY=1;
+	public static final Integer MIN_POLL_DELAY=2;
 	
 	@Id
 	@GeneratedValue

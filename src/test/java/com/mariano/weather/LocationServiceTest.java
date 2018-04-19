@@ -23,7 +23,7 @@ public class LocationServiceTest {
 	@Test
 	public void testPollInterval() {
 		System.out.println("Poll Interval "+service.getPollInterval());
-		assertEquals(new Integer(1),service.getPollInterval());
+		assertEquals(new Integer(2),service.getPollInterval());
 	}
 
 }

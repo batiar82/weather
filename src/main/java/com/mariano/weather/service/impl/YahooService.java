@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.mariano.weather.model.Forecast;
-import com.mariano.weather.model.Location;
 @Service
 public class YahooService {
 	@Autowired

@@ -71,10 +71,13 @@ public class WeatherApplication {
 		return args -> {
 			
 			User mariano = new User();
-			mariano.setName("Mariano");
+			mariano.setUsername("Mariano");
+			
 			Example<User> ejemplo = Example.of(mariano);
 			Optional<User> opt=userDao.findOne(ejemplo);
 			if(!opt.isPresent()) {
+				mariano.setName("Mariano");
+				mariano.setPassword(bCryptPasswordEncoder().encode("123"));
 				userDao.save(mariano);
 				log.info("Inserting dummy user to db...");
 			}

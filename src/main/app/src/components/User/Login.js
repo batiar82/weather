@@ -13,6 +13,8 @@ class Login extends Component {
   handleLogin = (evt) => {
     evt.preventDefault();
     console.log("Submit " + this.state.username);
+    const lowCaseUsername = this.state.username.toLowerCase()
+    this.setState({username: lowCaseUsername});
     this.props.login(this.state);
 
   }
@@ -35,7 +37,7 @@ class Login extends Component {
     return (
       <section className={classes.Login}>
         <form method="post" action="#">
-          <input type="text" name="username" placeholder="Username" required className="form-control input-lg" onChange={event => this.setState({ username: event.target.value })}/>
+          <input type="text" name="username" placeholder="Username" required className="form-control input-lg" onChange={event => this.setState({ username: event.target.value.toLowerCase() })}/>
           {this.validateRequiredField(this.state.username)}
           <input type="password" className="form-control input-lg" id="password" placeholder="Password" required="" onChange={event => this.setState({ password: event.target.value })}/>
           {this.validateRequiredField(this.state.password)}

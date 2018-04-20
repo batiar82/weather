@@ -26,6 +26,7 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<User> registerUser(@Valid @RequestBody UserDTO user){
+		user.setUsername(user.getUsername().toLowerCase());
 		User exists = dao.findByUsername(user.getUsername());
 		if(exists==null) {
 			System.out.println("Password "+user.getPassword());

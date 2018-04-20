@@ -59,6 +59,9 @@
     "webstomp-client": "^1.2.0",
     "whatwg-fetch": "2.0.3"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",

@@ -5,8 +5,9 @@
   margin: 5px;
   padding: 5px;
   position:relative;
-  width: 200px;
-  min-height: 160px;
+  width: 150px;
+  min-height: 135px;
+  font-size: 1rem
 }
 .LocationTrash{
   float: right;
@@ -19,15 +20,28 @@
   border-top: 16px solid #d1ecf1;
   border-bottom: 16px solid #d1ecf1;
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     animation: spin 2s linear infinite;
     position: absolute;
     left: 20%;
-    top: 10%;
+    top: 20%;
     
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+@media only screen and (min-width: 768px){
+  .LocationLoader{
+    width: 120px;
+    height: 120px;
+    left: 20%;
+    top: 10%;}
+  .Location{
+    font-size: 1em;
+      width: 200px;
+      min-height: 160px;
+  }
+  
 }

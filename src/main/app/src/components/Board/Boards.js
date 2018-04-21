@@ -4,6 +4,7 @@ import BoardForm from './boardForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import {app} from '../../helpers/base'
 import { fetchBoards, addBoard, deleteBoard, addLocation, deleteLocation } from '../../actions/boardAction'
 class Boards extends Component {
     constructor(props) {
@@ -13,10 +14,22 @@ class Boards extends Component {
         }
 
     }
-
+    componentWillMount(){
+        this.removeAuthListener = app.auth().onAuthStateChanged((user)=>{
+            if(user){
+                console.log(JSON.stringify(user));
+                this.setState({
+                    authenticated: true,
+                    currentUser: user,
+                })}
+        })
+    }
+    componentWillUnmount() {
+        this.removeAuthListener();
+    }
     componentDidMount() {
         console.log("Logged in en boards: "+this.props.loggedIn)
-        if (this.props.loggedIn)
+       // if (this.props.loggedIn)
             this.props.fetchBoards(this.props.userData.username);
 
     }
@@ -43,12 +56,12 @@ class Boards extends Component {
 
     render() {
         const { boards } = this.props
-        if (!this.props.loggedIn) {
+        /*if (!this.props.loggedIn) {
             console.log("redirecting");
             return (
                 <Redirect to={{ pathname: '/user/login' }} />
             )
-        }
+        }*/
         return (
             <div>
                 <BoardForm handleBoardAdd={this.handleBoardAdd} />

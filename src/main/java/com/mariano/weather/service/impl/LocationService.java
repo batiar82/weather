@@ -1,6 +1,7 @@
 package com.mariano.weather.service.impl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -32,6 +33,9 @@ public class LocationService implements ApplicationEventPublisherAware {
 	BoardDao boardDao;
 	@Autowired
 	ForecastDao forecastDao;
+	
+	@Autowired
+	List<String> subscribers;
 
 	@Autowired
 	YahooService yahooService;
@@ -91,6 +95,24 @@ public class LocationService implements ApplicationEventPublisherAware {
 
 	}
 
+	/**
+	 * Busca la proxima location a actualizar y la actualiza. ademas publica el
+	 * evento de la actualizacion
+	 */
+	@Transactional
+	public void updateOldestForecastForSubscribers() {
+		Forecast forecast= forecastDao.findFirstByLocationBoardOwnerUsernameIsInOrderByDateAsc(subscribers);
+		log.info("Updating forecast: "+forecast);
+		if(forecast !=null) {
+			Forecast newForecast=yahooService.getForecastForLCity(forecast.getCity());
+			forecast.copyPropertiesFrom(newForecast);
+			forecastDao.save(forecast);
+			log.info("Updated forecast: "+forecast);
+			publisher.publishEvent(new LocationEvent(this, LocationEvent.UPDATE_FORECAST, forecast.getLocation()));
+		}
+	}
+	
+	
 	/**
 	 * Busca la proxima location a actualizar y la actualiza. ademas publica el
 	 * evento de la actualizacion

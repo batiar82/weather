@@ -1,5 +1,7 @@
 package com.mariano.weather;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -33,6 +35,11 @@ public class WeatherApplication {
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
+	}
+	
+	@Bean
+	public List<String> subscriberBuilder(){
+		return new ArrayList<String>();
 	}
 	
 	@Bean

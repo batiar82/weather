@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 @Entity
 public class Board {
 	@Id
@@ -19,6 +20,7 @@ public class Board {
 	private String name;
 	
 	@OneToMany(mappedBy="board",cascade = CascadeType.ALL,orphanRemoval = true )
+	@OrderBy(value="id")
 	private List<Location> locations;
 	
 	@ManyToOne
@@ -52,6 +54,10 @@ public class Board {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "Board [id=" + id + ", name=" + name + ", locations=" + locations + ", owner=" + owner + "]";
 	}
 	
 }

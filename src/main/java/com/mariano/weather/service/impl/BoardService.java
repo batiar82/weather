@@ -33,16 +33,9 @@ public class BoardService {
 		return null;
 	}
 
-
-	public List<Board> getByOwner(String user) {
-		Optional<User> opt=userDao.findOne(Example.of(new User(user)));
-		if(opt.isPresent()) {
-			Board example = new Board();
-			example.setOwner(opt.get());
-			return dao.findAll(Example.of(example));
+	public List<Board> getByOwner(String username) {
+		return dao.findByOwnerUsername(username);
 		}
-		return null;
-	}
 
 
 	public void removeLocation(Integer boardId) {

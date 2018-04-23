@@ -37,7 +37,7 @@ public class BoardController {
 		public ResponseEntity<List<Board>> getBoards(@PathVariable String user){
 			
 		List<Board> boards= service.getByOwner(user);	
-		if (boards==null)
+		if (boards==null || boards.size()==0)
 			return new ResponseEntity<List<Board>>(boards,HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<List<Board>>(boards,HttpStatus.OK);

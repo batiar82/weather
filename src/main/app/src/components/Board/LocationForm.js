@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classes from './LocationForm.css'
 export default class LocationForm extends Component {
-  constructor(props) {
+  /*constructor(props) {
     super(props);
     this.state = { city: '' };
   }
@@ -11,17 +11,14 @@ export default class LocationForm extends Component {
     console.log("value " + this.state.city + "  " + this.props.boardId);
     this.props.handleLocationAdd(this.props.boardId, this.state.city)
   }
-
+*/
   render() {
-    let empty=true;
-    if(this.state.city.length!==0)
-      empty=false;
     return (
 
       <div className={classes.LocationForm}>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.value} placeholder="Add city" onChange={this.handleChange} />
-          <button type="submit" disabled={empty} className="btn btn-primary">+</button>
+        <form onSubmit={this.props.handleSubmit}>
+          <input type="text" value={this.state.value} placeholder="Add city" onChange={this.props.handleChange} />
+          <button type="submit" disabled={this.props.disabled} className="btn btn-primary">+</button>
         </form>
       </div>
     )

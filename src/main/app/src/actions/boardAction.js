@@ -2,9 +2,10 @@ import axios from 'axios'
 //const server = 'http://localhost:8080'
 const server = process.env.REACT_APP_BACKEND_URL;
 
-export function fetchBoards(username) {
+export function fetchBoards() {
     return function (dispatch) {
         const jwtToken = localStorage.getItem('jwtToken');
+        const username = localStorage.getItem('username');
         console.log("Mandar Token " + jwtToken);
         if(jwtToken!==null){
         axios.get(`${server}/boards/${username}`, { headers: { 'Authorization': jwtToken } })
@@ -18,7 +19,8 @@ export function fetchBoards(username) {
         }else dispatch({type: "FETCH_BOARDS_REJECTED"});
     }
 }
-export function deleteBoard(boardId, username) {
+export function deleteBoard(boardId) {
+    const username = localStorage.getItem('username');
     return function (dispatch) {
         const jwtToken = localStorage.getItem('jwtToken');
         axios.delete(`${server}/boards/${username}/${boardId}`, { headers: { 'Authorization': jwtToken } })
@@ -31,7 +33,8 @@ export function deleteBoard(boardId, username) {
             })
     }
 }
-export function addBoard(name, username) {
+export function addBoard(name) {
+    const username = localStorage.getItem('username');
     return function (dispatch) {
         const jwtToken = localStorage.getItem('jwtToken');
         axios.post(`${server}/boards/${username}`, { name: name }, { headers: { 'Authorization': jwtToken } })
@@ -44,7 +47,8 @@ export function addBoard(name, username) {
     }
 }
 
-export function addLocation(city, boardId, username) {
+export function addLocation(city, boardId) {
+    const username = localStorage.getItem('username');
     return function (dispatch) {
         dispatch({type: "ADD_LOCATION_PENDING", payload: {location: {city: city}, boardId: boardId}} )
         const jwtToken = localStorage.getItem('jwtToken');
@@ -57,7 +61,8 @@ export function addLocation(city, boardId, username) {
             })
     }
 }
-export function deleteLocation(locationId, boardId, username) {
+export function deleteLocation(locationId, boardId) {
+    const username = localStorage.getItem('username');
     return function (dispatch) {
         const jwtToken = localStorage.getItem('jwtToken');
         axios.delete(`${server}/boards/${username}/${boardId}/locations/${locationId}`, { headers: { 'Authorization': jwtToken } })

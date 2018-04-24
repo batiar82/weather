@@ -9,35 +9,44 @@ class Boards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            boards: [],
+            name: '',
+            boardSubmitEnabled: false,
         }
 
     }
 
     componentDidMount() {
-        console.log("Logged in en boards: "+this.props.loggedIn)
+        console.log("Logged in en boards: " + this.props.loggedIn)
         if (this.props.loggedIn)
-            this.props.fetchBoards(this.props.userData.username);
+
+            this.props.fetchBoards();
 
     }
 
     handleBoardDelete = (boardId) => {
         console.log("Delete " + boardId);
-        this.props.deleteBoard(boardId, this.props.userData.username);
+        this.props.deleteBoard(boardId);
 
     }
 
     handleLocationDelete = (boardId, locationId) => {
-        this.props.deleteLocation(locationId, boardId, this.props.userData.username);
+        this.props.deleteLocation(locationId, boardId);
 
     }
-    handleBoardAdd = (field) => {
-        console.log("add Board " + field.value);
-        this.props.addBoard(field.value, this.props.userData.username);
-
+    handleBoardAdd = (evt) => {
+        evt.preventDefault();
+        this.props.addBoard(this.state.name);
+        this.setState({ name: '', boardSubmitEnabled: false })
+    }
+    handleNameChange = (name) => {
+        if (name.trim() !== '')
+            this.setState({ boardSubmitEnabled: true })
+        else
+            this.setState({ boardSubmitEnabled: false })
+        this.setState({ name: name });
     }
     handleLocationAdd = (boardId, city) => {
-        this.props.addLocation(city, boardId, this.props.userData.username);
+        this.props.addLocation(city, boardId);
     }
 
 
@@ -51,8 +60,17 @@ class Boards extends Component {
         }
         return (
             <div>
-                <BoardForm handleBoardAdd={this.handleBoardAdd} />
-                {boards.map(board => <Board board={board} key={board.id} handleBoardDelete={this.handleBoardDelete} handleLocationDelete={this.handleLocationDelete} handleLocationAdd={this.handleLocationAdd} />)}
+                <BoardForm
+                    enabled={this.state.boardSubmitEnabled}
+                    handleBoardAdd={this.handleBoardAdd}
+                    name={this.state.name}
+                    handleNameChange={this.handleNameChange} />
+
+                {boards.map(board => <Board board={board}
+                    key={board.id}
+                    handleBoardDelete={this.handleBoardDelete}
+                    handleLocationDelete={this.handleLocationDelete}
+                    handleLocationAdd={this.handleLocationAdd} />)}
             </div>
         )
     }

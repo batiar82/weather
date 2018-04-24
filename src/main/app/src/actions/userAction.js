@@ -10,6 +10,7 @@ export function login(userData) {
         axios.post(`${server}/login`,{username:userData.username,password:userData.password}).then((response) => {
             const newData = { username: userData.username, token: response.headers.authorization }
             localStorage.setItem('jwtToken', response.headers.authorization);
+            localStorage.setItem('username', userData.username);
             dispatch({ type: 'LOGIN_FULFILLED', payload: newData })
         }).catch(err => {
             dispatch({ type: 'LOGIN_REJECTED', payload: err })
@@ -30,6 +31,7 @@ export function signup(userData) {
 export function logout(){
     return function(dispatch){
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('username');
         dispatch({type: 'LOGOUT_FULFILLED'});
         dispatch({type: 'SOCKET_DISCONNECT'});
     }

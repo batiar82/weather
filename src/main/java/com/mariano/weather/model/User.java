@@ -23,7 +23,6 @@ public class User {
 	@Column(unique=true)
 	private String username;
 	@JsonIgnore
-	 @NotNull
 	private String password;
 	@JsonIgnore
 	@OneToMany(mappedBy="owner",cascade = CascadeType.ALL,orphanRemoval = true )

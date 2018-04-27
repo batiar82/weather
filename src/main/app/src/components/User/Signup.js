@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
-import { signup } from '../../actions/userAction'
+//import { signup } from '../../actions/userAction'
 import classes from './Signup.css'
 class Signup extends Component {
   state = {
@@ -15,7 +15,7 @@ class Signup extends Component {
     evt.preventDefault();
     const lowCaseUsername = this.state.username.toLowerCase()
     this.setState({ username: lowCaseUsername });
-    this.props.signup(this.state);
+    //this.props.signup(this.state);
   }
   validateRequiredField(field) {
     if (field === undefined || field.length === 0) {
@@ -61,7 +61,7 @@ class Signup extends Component {
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  signup
+  //signup
 }, dispatch)
 
 const mapStateToProps = state => ({

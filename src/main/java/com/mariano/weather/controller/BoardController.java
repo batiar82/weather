@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mariano.weather.dao.FirebaseDao;
 import com.mariano.weather.model.Board;
 import com.mariano.weather.model.dto.BoardDTO;
 import com.mariano.weather.service.impl.BoardService;
@@ -28,6 +29,8 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	@Autowired
+	FirebaseDao firebaseDao;
 	
 	
 	@RequestMapping(
@@ -51,6 +54,7 @@ public class BoardController {
 	public ResponseEntity<Board> addBoard(@PathVariable String user, @RequestBody BoardDTO boardDTO) {
 		log.info("Entering to add a board");
 		boardDTO.setUser(user);
+		firebaseDao.addBoard(boardDTO);
 		Board board =service.addBoard(boardDTO);
 		if(board==null)
 			return new ResponseEntity<Board>(board,HttpStatus.NOT_FOUND);

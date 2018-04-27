@@ -14,22 +14,9 @@ class Boards extends Component {
         }
 
     }
-    componentWillMount(){
-        this.removeAuthListener = app.auth().onAuthStateChanged((user)=>{
-            if(user){
-                console.log(JSON.stringify(user));
-                this.setState({
-                    authenticated: true,
-                    currentUser: user,
-                })}
-        })
-    }
-    componentWillUnmount() {
-        this.removeAuthListener();
-    }
     componentDidMount() {
         console.log("Logged in en boards: "+this.props.loggedIn)
-       // if (this.props.loggedIn)
+        if (this.props.loggedIn)
             this.props.fetchBoards(this.props.userData.username);
 
     }
@@ -56,12 +43,12 @@ class Boards extends Component {
 
     render() {
         const { boards } = this.props
-        /*if (!this.props.loggedIn) {
+        if (!this.props.loggedIn) {
             console.log("redirecting");
             return (
                 <Redirect to={{ pathname: '/user/login' }} />
             )
-        }*/
+        }
         return (
             <div>
                 <BoardForm handleBoardAdd={this.handleBoardAdd} />

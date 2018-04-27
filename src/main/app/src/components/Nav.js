@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { googleLogin,logout } from '../actions/userAction'
+import { bindActionCreators } from 'redux'
+
 import Aux from './hoc/Aux'
 class Nav extends Component {
     constructor(props) {
@@ -14,29 +17,36 @@ class Nav extends Component {
         console.log("Click " + JSON.stringify(this.props.userData));
         this.setState({ navCollapsed: !this.state.navCollapsed })
     }
+    login = (evt)=>{
+        evt.preventDefault();
+        console.log("Login");
+        this.props.googleLogin();
 
+    }
+    logout = (evt)=>{
+        evt.preventDefault();
+        console.log("Logout");
+        this.props.logout();
+
+    }
+    
     render() {
         console.log("Logged "+this.props.loggedIn);
         let showUnlogged =
             <Aux>
                 <li>
-                    <Link to='/user/signup' className="nav-link" >
-                        <i className="fas fa-user-plus" ></i> Sing Up
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/user/login' className="nav-link" >
+                    <a onClick={this.login} className='nav-link'> 
                         <i className="fas fa-sign-in-alt"></i> Login
-                    </Link>
+                    </a>
                 </li>
             </Aux>
 
         if (this.props.loggedIn) {
             showUnlogged = 
             <li>
-                <Link to='/user/logout' className="nav-link" >
+                <a className="nav-link" onClick={this.logout} >
                     <i className="fas fa-sign-out-alt"></i> Logout
-                </Link>
+                </a>
             </li>
         }
         return (
@@ -59,4 +69,9 @@ const mapStateToProps = state => ({
     userData: state.user.userData,
     loggedIn: state.user.loggedIn
 })
-export default connect(mapStateToProps)(Nav);
+const mapDispatchToProps = dispatch => bindActionCreators({
+    googleLogin,
+    logout,
+  }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

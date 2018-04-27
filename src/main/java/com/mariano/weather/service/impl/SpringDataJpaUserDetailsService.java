@@ -17,7 +17,11 @@ public class SpringDataJpaUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		com.mariano.weather.model.User user=userDao.findByUsername(username);
 		System.out.println("Usuario de la db "+user);
-		return new User(user.getUsername(),user.getPassword(),AuthorityUtils.createAuthorityList("USER"));
+		
+		if(user==null)
+			return null;
+		else
+		return new User(user.getUsername(),"DummyPassword",AuthorityUtils.createAuthorityList("USER"));
 	}
 
 }

@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Link,Redirect } from 'react-router-dom';
-import { login } from '../../actions/userAction'
+import { googleLogin } from '../../actions/userAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {Toaster, Intent} from "@blueprintjs/core"
 import classes from './Login.css'
-import {app, googleProvider} from '../../helpers/base'
 class Login extends Component {
   constructor(){
     super()
@@ -15,13 +14,14 @@ class Login extends Component {
   authWithGoogle(){
     console.log("Auth with google");
     //this.props.login({"pepe":"pappa"});
-    app.auth().signInWithPopup(googleProvider).then((result,error)=>{
+    /*app.auth().signInWithPopup(googleProvider).then((result,error)=>{
       if(error){
         this.toaster.show({intent: Intent.DANGER,message: "Unable to sign in with Google"})
       }else {
         this.props.login(result);
       }
-    })
+    })*/
+    this.props.googleLogin()
   }
   render(){
     if(this.props.loggedIn){
@@ -40,7 +40,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  login
+  googleLogin
 }, dispatch)
 
 const mapStateToProps = state => ({

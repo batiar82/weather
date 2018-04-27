@@ -22,8 +22,8 @@ export const wsMiddleware = store => next => action => {
             if(socket!== null){
                 socket.close();
             }
-            let token=localStorage.getItem('jwtToken');
-            socket= new SockJS(`${server}/weather?authorization=${token}`)
+            let token=localStorage.getItem('googleToken');
+            socket= new SockJS(`${server}/weather?X-Authorization-Firebase=${token}`)
             stompClient=Stomp.over(socket);
             stompClient.connect({},()=>{
                 stompClient.subscribe(`/topic/${action.payload}/boards`,(frame)=>{

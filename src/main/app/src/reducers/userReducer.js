@@ -1,6 +1,8 @@
+let user = localStorage.getItem("user");
+
 const initialState = {
-    userData:{},
-    loggedIn:false,
+    userData:user ? user : {},
+    loggedIn:user? true:false,
     error : null,
     signupSuccess: false,
 }

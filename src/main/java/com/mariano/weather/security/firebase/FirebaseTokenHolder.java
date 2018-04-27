@@ -34,4 +34,11 @@ public class FirebaseTokenHolder {
 
 		return userId;
 	}
+
+	@Override
+	public String toString() {
+		return "FirebaseTokenHolder [getEmail()=" + getEmail() + ", getIssuer()=" + getIssuer() + ", getName()="
+				+ getName() + ", getUid()=" + getUid() + ", getGoogleId()=" + getGoogleId() + "]";
+	}
+	
 }

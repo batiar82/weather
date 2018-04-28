@@ -1,3 +1,4 @@
+import * as actionTypes from '../actions/actionTypes'
 const initialState = {
     boards: [],
     errors: null,
@@ -6,21 +7,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'FETCH_BOARDS_FULFILLED': {
+        case actionTypes.FETCH_BOARDS_FULFILLED: {
             return { ...state, boards: action.payload }
         }
-        case 'ADD_BOARD_FULFILLED': {
+        case actionTypes.ADD_BOARD_FULFILLED: {
 
             let newBoards = [...state.boards];
             newBoards.push(action.payload);
             return { ...state, boards: newBoards, errors: null }
         }
-        case 'DELETE_BOARD_FULFILLED': {
+        case actionTypes.DELETE_BOARD_FULFILLED: {
             let newBoards = [...state.boards];
             newBoards = newBoards.filter(board => board.id !== action.payload);
             return { ...state, boards: newBoards }
         }
-        case 'ADD_LOCATION_PENDING':{
+        case actionTypes.ADD_LOCATION_PENDING:{
             let newBoards = [...state.boards];
             const newBoard = newBoards.find(board => board.id === action.payload.boardId)
             newBoard.error=null;
@@ -32,45 +33,56 @@ export default (state = initialState, action) => {
             newBoard.locations.push(action.payload.location)
             return { ...state, boards: newBoards }
             }
-        case 'ADD_LOCATION_FULFILLED': {
+        case actionTypes.ADD_LOCATION_FULFILLED: {
             let newBoards = [...state.boards];
             const newBoard = newBoards.find(board => board.id === action.payload.boardId)
             if (newBoard.locations === null)
                 newBoard.locations = [];
                 newBoard.fetchingCity=false;
                 newBoard.error=false;
+                newBoard.resetForm=true;
             newBoard.locations[newBoard.locations.length-1]=action.payload.location;
             return { ...state, boards: newBoards}
         }
-        case 'ADD_LOCATION_REJECTED': {
+        case actionTypes.ADD_LOCATION_REJECTED: {
             let newBoards = [...state.boards];
-            const newBoard = newBoards.find(board => board.id === action.payload.boardId)
-            newBoard.locations.pop();
+            const boardIndex = newBoards.findIndex(board => board.id === action.payload.boardId)
+            let newBoard=newBoards[boardIndex];
+            let locations=[...newBoard.locations]
+            locations.pop();
+            newBoard.locations=locations;
             newBoard.error=action.payload.error;
             newBoard.fetchingCity=false;
-
+            newBoards[boardIndex]=newBoard;
             return { ...state, boards: newBoards}
         }
-        case 'DELETE_LOCATION_FULFILLED': {
+        case actionTypes.DELETE_LOCATION_FULFILLED: {
             let newBoards = [...state.boards];
             const newBoard = newBoards.find(board => board.id === action.payload.boardId)
             
             newBoard.locations=newBoard.locations.filter(location=>location.id!==action.payload.locationId)
             return { ...state, boards: newBoards }
         }
-        case 'WS_LOCATION_RECEIVED':{
-            console.log("RECEIVED LOCATION: "+action.payload);
+        case actionTypes.WS_LOCATION_RECEIVED:{
             let newBoards = [...state.boards];
             newBoards.some(board =>{
                 const index=board.locations.findIndex(location => location.id === action.payload.id)
-                console.log("Index: "+index);
                 if(index!==-1){
                     board.locations[index]=action.payload
                     return true;
                 } return false;
             })
-            console.log("BOards "+JSON.stringify(newBoards[0].locations[0]));
             return {...state,boards: newBoards}
+        }
+        case actionTypes.RESETED_FORM_FULFILLED: {
+            let newBoards = [...state.boards];
+            const boardIndex = newBoards.findIndex(board => board.id === action.payload)
+            let newBoard={...newBoards[boardIndex]}
+            console.log(JSON.stringify(newBoard));
+            newBoard.resetForm=false;
+            newBoards[boardIndex]=newBoard;
+            console.log(JSON.stringify(newBoard));
+             return {...state,boards:newBoards}
         }
         default: return state;
     }

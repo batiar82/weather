@@ -11,3 +11,10 @@
 .Signup input {
     margin-bottom: 10px;
   }
+  .Error{
+    color: red;
+  text-align: center;
+  font-weight: bolder;
+}
+
+ 

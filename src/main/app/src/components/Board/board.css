@@ -61,6 +61,15 @@
   flex-wrap: wrap;
 
   }
+  .Error{
+  margin-left: 15px;
+  font-weight: bolder;
+  color: #830101;
+  padding:3px;
+  border-radius: 3px;
+  border: 1px solid #c70000;
+  background-color: rgb(250, 141, 141);
+  }
   @media only screen and (min-width: 768px){
     .BoardBar{
       margin: 10px;

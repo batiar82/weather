@@ -16,7 +16,6 @@ class Nav extends Component {
     }
 
     render() {
-        console.log("Logged "+this.props.loggedIn);
         let showUnlogged =
             <Aux>
                 <li>
@@ -32,12 +31,13 @@ class Nav extends Component {
             </Aux>
 
         if (this.props.loggedIn) {
-            showUnlogged = 
+            showUnlogged = <Aux>
+            <li><a href="#" className="nav-link">Hi, {this.props.userData.username}</a></li>
             <li>
                 <Link to='/user/logout' className="nav-link" >
                     <i className="fas fa-sign-out-alt"></i> Logout
                 </Link>
-            </li>
+            </li></Aux>
         }
         return (
             <nav className="navbar navbar-default">

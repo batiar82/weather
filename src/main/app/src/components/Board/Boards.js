@@ -4,7 +4,7 @@ import BoardForm from './boardForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchBoards, addBoard, deleteBoard, addLocation, deleteLocation } from '../../actions/boardAction'
+import { fetchBoards, addBoard, deleteBoard, addLocation, deleteLocation,resetedFormHandler } from '../../actions/boardAction'
 class Boards extends Component {
     constructor(props) {
         super(props);
@@ -45,10 +45,14 @@ class Boards extends Component {
             this.setState({ boardSubmitEnabled: false })
         this.setState({ name: name });
     }
-    handleLocationAdd = (boardId, city) => {
+    handleLocationAdd = (evt,boardId, city) => {
+        evt.preventDefault();
+        console.log("Board city "+boardId+city)
         this.props.addLocation(city, boardId);
     }
-
+    resetedFormHandler = (boardId)=>{
+        this.props.resetedFormHandler(boardId);
+    }
 
     render() {
         const { boards } = this.props
@@ -70,7 +74,8 @@ class Boards extends Component {
                     key={board.id}
                     handleBoardDelete={this.handleBoardDelete}
                     handleLocationDelete={this.handleLocationDelete}
-                    handleLocationAdd={this.handleLocationAdd} />)}
+                    handleLocationAdd={this.handleLocationAdd}
+                    resetedFormHandler={this.resetedFormHandler}/>)}
             </div>
         )
     }
@@ -85,6 +90,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     addBoard,
     deleteBoard,
     addLocation,
-    deleteLocation
+    deleteLocation,
+    resetedFormHandler,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Boards)

@@ -11,3 +11,15 @@
   .Login input {
     margin-bottom: 10px;
   }
+  .Error{
+    color: red;
+  text-align: center;
+  font-weight: bolder;
+}
+.Success{
+  color: green;
+text-align: center;
+font-weight: bolder;
+}
+
+ 

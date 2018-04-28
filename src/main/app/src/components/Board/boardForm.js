@@ -1,11 +1,13 @@
 import React from 'react'
 
 import classes from './board.css'
-export default ({handleBoardAdd}) => {
+export default ({name, enabled,handleNameChange,handleBoardAdd}) => {
   return (
     <div className={classes.BoardBar}>
-      <input type="text" placeholder="Enter Board Name..." ref={(input)=> this._board = input}/>
-      <button className="btn btn-primary" onClick={()=>handleBoardAdd(this._board)}>+</button>
+    <form onSubmit={handleBoardAdd}>
+      <input type="text" placeholder="Enter Board Name..." value={name} onChange={(evt)=>handleNameChange(evt.target.value)}/>
+      <button type="submit" className="btn btn-primary" disabled={!enabled}>+</button>
+      </form>
     </div>
   )
 }

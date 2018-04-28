@@ -1,69 +1,95 @@
 import React, { Component } from 'react'
-import { Link,Redirect } from 'react-router-dom';
-import { login } from '../../actions/userAction'
+import { Link, Redirect } from 'react-router-dom';
+import { login, resetError } from '../../actions/userAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import classes from './Login.css'
 class Login extends Component {
   state = {
-    username:'',
+    username: '',
     password: '',
+    error: null,
+    disableSubmit: true
   }
-
   handleLogin = (evt) => {
     evt.preventDefault();
-    console.log("Submit " + this.state.username);
     const lowCaseUsername = this.state.username.toLowerCase()
-    this.setState({username: lowCaseUsername});
+    this.setState({ username: lowCaseUsername });
     this.props.login(this.state);
 
   }
-  validateRequiredField(field){
-    if(field===undefined || field.length===0){
-      return (<div className="invalid-feedback">
-      Please fill this field.
-    </div>)
+  fieldChangeHandler(evt, field) {
+    if (field === 'username')
+      this.setState({ username: evt.target.value });
+    if (field === 'password')
+      this.setState({ password: evt.target.value });
+  }
+
+  updateSubmitState() {
+    if (this.state.username !== '' && this.state.password !== '') {
+      this.setState({ disableSubmit: false })
+      console.log("Cambio estado " + this.state.disableSubmit);
     }
   }
+  componentDidMount() {
+    this.props.resetError();
+    console.log("user pass " + this.state.username + this.state.password);
+  }
   render() {
-    if (this.props.loggedIn && localStorage.getItem("jwtToken")!=null) {
-      console.log("LOGGED?? " + this.props.loggedIn);
+    if (this.props.loggedIn) {
       return (
         <Redirect to={{ pathname: "/" }
         } />
       )
     }
-    let hasErrors = this.state.password.length===0 || this.state.username.length===0
+
+    let message = null;
+    if (this.props.error)
+      message = (<div className={classes.Error}>
+        Error logging in, check your credentials</div>)
+    if (this.props.signupSuccess)
+      message = (<div className={classes.Success}>Signup success, please login</div>)
+    let disableForm = true;
+    (this.state.username !== '' && this.state.password !== '') ? disableForm = false : disableForm = true;
     return (
       <section className={classes.Login}>
-        <form method="post" action="#">
-          <input type="text" name="username" placeholder="Username" required className="form-control input-lg" onChange={event => this.setState({ username: event.target.value.toLowerCase() })}/>
-          {this.validateRequiredField(this.state.username)}
-          <input type="password" className="form-control input-lg" id="password" placeholder="Password" required="" onChange={event => this.setState({ password: event.target.value })}/>
-          {this.validateRequiredField(this.state.password)}
-          <button type="submit" name="go" disabled={hasErrors} className="btn btn-lg btn-primary btn-block" onClick={this.handleLogin} >Log in</button>
+        {message}
+        <form onSubmit={this.handleLogin}>
+
+          <input type="text"
+            name="username"
+            placeholder="Username"
+            required
+            className="form-control input-lg"
+            onChange={(evt) => this.fieldChangeHandler(evt, 'username')}
+            value={this.state.username} />
+          <input type="password"
+            className="form-control input-lg"
+            placeholder="Password"
+            required
+            onChange={(evt) => this.fieldChangeHandler(evt, 'password')}
+            value={this.state.password} />
+          <button type="submit"
+            disabled={disableForm}
+            className="btn btn-lg btn-primary btn-block" >Log in</button>
           <div>
             <Link to='/user/signup'>or create account</Link>
           </div>
-
         </form>
-
       </section>
-
-
-
     )
-
-
-
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  login
+  login,
+  resetError,
 }, dispatch)
 
 const mapStateToProps = state => ({
   userData: state.user.userData,
   loggedIn: state.user.loggedIn,
+  error: state.user.error,
+  signupSuccess: state.user.signupSuccess,
+
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

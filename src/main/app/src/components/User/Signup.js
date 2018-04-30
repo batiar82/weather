@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux'
 import { signup, resetError } from '../../actions/userAction'
 import classes from './Signup.css'
+import Spinner from '../Spinner/Spinner'
 class Signup extends Component {
   state = {
     username: '',
@@ -45,6 +46,8 @@ class Signup extends Component {
     if(this.props.signupSuccess){
       return (<Redirect to={{pathname: "/user/login"}} />)
     }
+    if(this.props.loading)
+    return <Spinner/>
     let error = null;
 
     if (this.props.error && this.props.error.status === 409 && this.props.error.data.username === this.state.username)
@@ -91,6 +94,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 const mapStateToProps = state => ({
   error: state.user.error,
   loggedIn: state.user.loggedIn,
+  loading: state.user.loading,
   signupSuccess: state.user.signupSuccess,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

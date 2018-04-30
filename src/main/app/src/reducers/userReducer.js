@@ -17,33 +17,37 @@ const initialState = {
     loggedIn: getLoggedState(),
     error: null,
     signupSuccess: false,
+    loading: false,
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN_FULFILLED': {
-            return { ...state, loggedIn: true, userData: action.payload, signupSuccess: false,error:false }
+            return { ...state, loggedIn: true,loading:false, userData: action.payload, signupSuccess: false,error:false }
         }
         case 'SIGNUP_FULFILLED': {
-            return { ...state, userData: action.payload, signupSuccess: true }
+            return { ...state, loading: false,userData: action.payload, signupSuccess: true }
         }
         case 'LOGOUT_FULFILLED': {
             return { ...state, loggedIn: false, userData: {}, signupSuccess: false }
         }
+        case 'LOGIN_PENDING': {
+            return { ...state, loading: true,signupSuccess: false }
+        }
         case 'LOGIN_REJECTED': {
-            return { ...state, initialState, error: "Error Login", signupSuccess: false }
+            return { ...state, initialState, loading: false,error: "Error Login", signupSuccess: false }
         }
         case 'RESET_ERROR': {
             return { ...state, error: false }
         }
         case 'SIGNUP_REJECTED': {
-            return { ...state, error: action.payload, signupSuccess: false }
+            return { ...state, loading: false, error: action.payload, signupSuccess: false }
         }
         case 'LOGOUT_REJECTED': {
             return { ...state, signupSuccess: false }
         }
         case 'SIGNUP_PENDING': {
-            return { ...state, error: null, signupSuccess: false }
+            return { ...state, loading: true,error: null, signupSuccess: false }
         }
 
 

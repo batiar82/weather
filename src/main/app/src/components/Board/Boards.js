@@ -46,7 +46,8 @@ class Boards extends Component {
         this.setState({ name: name });
     }
     handleLocationAdd = (evt,boardId, city) => {
-        evt.preventDefault();
+        if(evt!==null)
+            evt.preventDefault();
         console.log("Board city "+boardId+city)
         this.props.addLocation(city, boardId);
     }

@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { login, resetError } from '../../actions/userAction'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Spinner from '../Spinner/Spinner'
 import classes from './Login.css'
 class Login extends Component {
   state = {
@@ -42,7 +43,10 @@ class Login extends Component {
         } />
       )
     }
-
+    if(this.props.loading)
+    {
+      return <Spinner/>
+    }
     let message = null;
     if (this.props.error)
       message = (<div className={classes.Error}>
@@ -89,6 +93,7 @@ const mapStateToProps = state => ({
   userData: state.user.userData,
   loggedIn: state.user.loggedIn,
   error: state.user.error,
+  loading: state.user.loading,
   signupSuccess: state.user.signupSuccess,
 
 })

@@ -6,6 +6,10 @@
   margin-right: 10px;
   padding-left: 7px;
   margin-left: 10px;
+  border: 1px solid #c3e6cb;
+  }
+  .LocationForm form {
+    display: flex;
   }
   .LocationForm button{
     height: 25px;

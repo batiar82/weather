@@ -1,0 +1,43 @@
+.SearchSuggest{
+    position: relative;
+}
+.SuggestionList{
+    background-color: azure;
+    position: absolute;
+    display: inline-block;
+    margin-left: 10px;
+    width: 150px;
+    top: 25px;
+    font-size: 1em;
+    left: 0%;
+    z-index: 1;
+}
+.SuggestionList li{
+ 
+    display: block;
+    border: 1px solid #c3e6cb;
+    padding-left: 6px;
+    margin-top: -1px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.SuggestionList li:hover{
+    background-color: beige;
+    
+}
+.SuggestionList ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+@media only screen and (min-width: 768px){
+    .SuggestionList{
+        width: 200px;
+        font-size: 1.4em;
+        top: 35px;
+    }
+    .SuggestionList li{
+        padding-left: 10px;
+}
+}

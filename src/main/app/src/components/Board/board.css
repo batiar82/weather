@@ -17,6 +17,7 @@
   height: 40px;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
 }
   .BoardBar p{
    
@@ -31,6 +32,7 @@
   margin-right: 10px;
   padding-left: 7px;
   margin-left: 10px;
+  border: 1px solid #c3e6cb;
   }
   .BoardBar button{
     height: 25px;

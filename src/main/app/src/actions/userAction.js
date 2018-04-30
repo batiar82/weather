@@ -4,7 +4,7 @@ const server = process.env.REACT_APP_BACKEND_URL;
 export function login(userData) {
     return function (dispatch) {
         localStorage.removeItem('jwtToken');
-        dispatch({type: actionTypes.LOGOUT_FULFILLED})
+        dispatch({type: actionTypes.LOGIN_PENDING})
         console.log("voy a post de login");
         axios.post(`${server}/login`,{username:userData.username,password:userData.password}).then((response) => {
             const newData = { username: userData.username, token: response.headers.authorization }

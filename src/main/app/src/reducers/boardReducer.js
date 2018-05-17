@@ -78,10 +78,8 @@ export default (state = initialState, action) => {
             let newBoards = [...state.boards];
             const boardIndex = newBoards.findIndex(board => board.id === action.payload)
             let newBoard={...newBoards[boardIndex]}
-            console.log(JSON.stringify(newBoard));
             newBoard.resetForm=false;
             newBoards[boardIndex]=newBoard;
-            console.log(JSON.stringify(newBoard));
              return {...state,boards:newBoards}
         }
         default: return state;

@@ -1,7 +1,6 @@
 package com.mariano.weather.helpers;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ public class StompEvents {
 	@EventListener
 	public void subscribeEvent(SessionSubscribeEvent event) {
 		log.info("Subscription event for user "+event.getUser().getName());
-		if(subscribers.contains(event.getUser().getName())) 
+		if(!subscribers.contains(event.getUser().getName())) 
 			subscribers.add(event.getUser().getName());
 	}
 	@EventListener

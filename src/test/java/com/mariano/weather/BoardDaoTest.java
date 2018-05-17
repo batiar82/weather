@@ -2,10 +2,6 @@ package com.mariano.weather;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mariano.weather.dao.BoardDao;
-import com.mariano.weather.model.Location;
 import com.mariano.weather.service.impl.BoardService;
-import com.mariano.weather.service.impl.LocationService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BoardDaoTest {

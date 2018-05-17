@@ -18,6 +18,7 @@ import com.mariano.weather.dao.BoardDao;
 import com.mariano.weather.dao.ForecastDao;
 import com.mariano.weather.dao.LocationDao;
 import com.mariano.weather.helpers.LocationEvent;
+import com.mariano.weather.model.Board;
 import com.mariano.weather.model.Forecast;
 import com.mariano.weather.model.Location;
 import com.mariano.weather.model.YahooCounter;
@@ -57,6 +58,8 @@ public class LocationService implements ApplicationEventPublisherAware {
 		log.info("Add location " + city);
 		Location newLocation = new Location();
 		newLocation.setName(city);
+		Board board=boardDao.findById(boardId).get();
+		
 		newLocation.setBoard(boardDao.findById(boardId).get());
 		Forecast yahooForecast = yahooService.getForecastForLCity(city);
 		if (yahooForecast == null)
@@ -68,7 +71,9 @@ public class LocationService implements ApplicationEventPublisherAware {
 			return newLocation;
 		}
 	}
-
+	public boolean checkExistingLocation(String city, Integer boardId) {
+		return dao.existsByNameAndBoardId(city, boardId);
+	}
 	public void removeLocation(Integer locationId) {
 		dao.deleteById(locationId);
 	}
@@ -82,7 +87,6 @@ public class LocationService implements ApplicationEventPublisherAware {
 	public Integer getPollInterval() {
 		Long total = dao.count();
 		Integer minuteInterval = Long.valueOf(total * 24 * 60 / YahooCounter.MAX_QUERIES).intValue();
-		System.out.println("Update Interval: "+minuteInterval);
 		//Devuelvo el minimo porque con la estrategia de actualizar el ultimo no hace falta el calculo, eso es para cuando actualizo todos juntos.
 		//Mas adelante hay que implementar que actualice solo los que estan subscriptos.
 		//return (Forecast.MIN_POLL_DELAY > minuteInterval ? Forecast.MIN_POLL_DELAY : minuteInterval);

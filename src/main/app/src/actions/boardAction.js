@@ -7,7 +7,6 @@ export function fetchBoards() {
     return function (dispatch) {
         const jwtToken = localStorage.getItem('jwtToken');
         const username = localStorage.getItem('username');
-        console.log("Mandar Token " + jwtToken);
         if(jwtToken!==null){
         axios.get(`${server}/boards/${username}`, { headers: { 'Authorization': jwtToken } })
             .then(response => {

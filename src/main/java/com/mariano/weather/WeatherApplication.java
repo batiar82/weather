@@ -78,7 +78,7 @@ public class WeatherApplication {
 		return args -> {
 			
 			User mariano = new User();
-			mariano.setUsername("Mariano");
+			mariano.setUsername("mariano");
 			
 			Example<User> ejemplo = Example.of(mariano);
 			Optional<User> opt=userDao.findOne(ejemplo);

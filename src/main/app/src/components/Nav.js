@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import Aux from './hoc/Aux'
+import Wrap from './hoc/Wrap'
 class Nav extends Component {
     constructor(props) {
         super(props)
@@ -17,7 +17,7 @@ class Nav extends Component {
 
     render() {
         let showUnlogged =
-            <Aux>
+            <Wrap>
                 <li>
                     <Link to='/user/signup' className="nav-link" >
                         <i className="fas fa-user-plus" ></i> Sing Up
@@ -28,16 +28,16 @@ class Nav extends Component {
                         <i className="fas fa-sign-in-alt"></i> Login
                     </Link>
                 </li>
-            </Aux>
+            </Wrap>
 
         if (this.props.loggedIn) {
-            showUnlogged = <Aux>
+            showUnlogged = <Wrap>
             <li><a href="#" className="nav-link">Hi, {this.props.userData.username}</a></li>
             <li>
                 <Link to='/user/logout' className="nav-link" >
                     <i className="fas fa-sign-out-alt"></i> Logout
                 </Link>
-            </li></Aux>
+            </li></Wrap>
         }
         return (
             <nav className="navbar navbar-default">

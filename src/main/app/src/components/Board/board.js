@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './board.css'
 import Location from './location'
 import LocationForm from './LocationForm';
-import Aux from '../hoc/Aux'
+import Wrap from '../hoc/Wrap'
 import classes from './board.css'
 
 class Board extends Component {
@@ -24,7 +24,7 @@ class Board extends Component {
       error=(<div className={classes.Error}>City not Found</div>)
   
     return (
-      <Aux>
+      <Wrap>
         <div className={classes.BoardBar}>
 
           <p>{board.name}</p>
@@ -44,7 +44,7 @@ class Board extends Component {
         <div className={classes.BoardCities}>
           {locations}
         </div>
-      </Aux >
+      </Wrap >
     )
   }
 }

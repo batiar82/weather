@@ -19,6 +19,8 @@ import com.mariano.weather.service.impl.SpringDataJpaUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private static final String SWAGGER_URL = "/swagger-ui.html";
+	private static final String H2_URL = "/h2-console/*";
 	@Autowired
 	private SpringDataJpaUserDetailsService userDetailsService;
 	@Autowired
@@ -32,9 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.headers().frameOptions().disable();
 		http.cors().and().csrf().disable().authorizeRequests()
         .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-        .anyRequest().authenticated()
+        .antMatchers(HttpMethod.GET, SWAGGER_URL).permitAll()
+        .antMatchers(HttpMethod.GET, H2_URL).permitAll()
+        .anyRequest().permitAll()//.authenticated()
         .and()
         .addFilter(new JWTAuthenticationFilter(authenticationManager()))
         .addFilter(new JWTAuthorizationFilter(authenticationManager()))

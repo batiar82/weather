@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,9 @@ import com.mariano.weather.model.Location;
 import com.mariano.weather.model.dto.LocationDTO;
 import com.mariano.weather.service.impl.GoogleApiService;
 import com.mariano.weather.service.impl.LocationService;
+import com.sun.tools.javac.util.List;
+
+import reactor.core.publisher.Flux;
 
 @RestController
 public class LocationController {
@@ -48,5 +52,12 @@ public class LocationController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> autocompleteCity(@RequestParam("query") String query) {
 		return  googleApiService.getSuggestions(query);
+	}
+	
+	@GetMapping(path= "/locations", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<Location> getLocationUpdate() {
+		Location loc = new Location();
+		loc.setName("LALALAL");
+		return Flux.fromStream(List.of(loc).stream());
 	}
 }
